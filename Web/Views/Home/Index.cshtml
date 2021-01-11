@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<div class="container">
+    <h1>Blog</h1>
+
+    <div class="row">
+        <div class="col-md-offset-10 col-md-2">
+            <input type="text" id="search" class="form-control" placeholder="search posts" />
+        </div>
+        <div class="col-md-12">
+            <table class="table table-bordered" id="post">
+                <tbody></tbody>
+            </table>
+            <div id="aaaaa"></div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        Base_url = "https://localhost:44394/";
+        $(function () {
+            loadData();
+        })
+        search.oninput = function () {
+            loadData();
+        };
+        function loadData() {
+            var html = "";
+            var data = {
+                'page': (currentPage - 1),
+                'pagesize': pageSize,
+                'search': $('#search').val(),
+            }
+            $.ajax({
+                url: Base_url + "api/Blog",
+                data: data,
+                type: "GET",
+                success: function (result) {
+                    $.each(
+                        result.data,
+                        function (i, item) {
+                            html += '<tr class="text-post">';
+                            html += '<td>' + item.details + '</td>';
+                            html += '<td>' + item.name + '</td>';
+                            html += '<td>' + item.createdAt + '</td>';
+                            html += '<td>' + item.blogComments.length + ' comments</td>';
+                            html += '</tr>';
+
+                            $.each(item.blogComments, function (i1, item1) {
+                                html += '<tr class="">';
+                                html += '<td>' + item1.comment + '</td>';
+                                html += '<td>' + item1.name + '</td>';
+                                html += '<td>' + item1.createdAt + '</td>';
+                                html += '<td><i class="fa fa-thumbs-up"></i>' + item1.like + ' <span class="pl-5"></span> <i class="fa fa-thumbs-down"></i>' + item1.dislike + '</td>';
+                                html += '</tr>';
+
+                            })
+                        })
+                    $("tbody").html(html);
+
+                    pagePagination(result.total, pageSize, "loadData");
+                }
+            });
+        }
+        //function loaddata() {
+        //    $('#post').empty();
+        //    $.ajax({
+        //        type: "GET",
+        //        url: Base_url + "api/Blog",
+        //        data: { page: 0, pagesize: 10, search: '' },
+        //        success: function (result) {
+        //            //alert(JSON.stringify(result))
+        //            $.each(result, function (i, e) {
+        //                var html = '';
+        //                html += '<tr class="text-post">';
+        //                html += '<td>' + e.details + '</td>';
+        //                html += '<td>' + e.name + '</td>';
+        //                html += '<td>' + e.createdAt + '</td>';
+        //                html += '<td>' + e.blogComments.length+' comments</td>';
+        //                html += '</tr>';
+
+        //                $.each(e.blogComments, function (i1, e1) {
+        //                    var html = '';
+        //                    html += '<tr class="text-post">';
+        //                    html += '<td>' + e1.comment + '</td>';
+        //                    html += '<td>' + e1.name + '</td>';
+        //                    html += '<td>' + e1.createdAt + '</td>';
+        //                    html += '<td>' + e1.like + ' ' + e1.dislike + '</td>';
+        //                    html += '</tr>';
+
+        //                })
+        //            })
+        //            $('#post').append(html);
+        //        },
+        //        error: function (jqXhr, textStatus, errorThrown) {
+        //            if (jqXhr.responseText.indexOf('loginfrom') > -1) {
+        //                alert("Sorry. You have no permission for this action.", "failure");
+        //            } else {
+        //                alert("Internal server error.", "failure");
+        //            }
+        //            closeWait();
+        //        }
+
+        //    });
+        //}
+    </script>
+}

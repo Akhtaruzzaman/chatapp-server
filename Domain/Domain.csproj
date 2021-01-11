@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Accounts\**" />
+    <Compile Remove="Attendance\**" />
+    <Compile Remove="Commercial\**" />
+    <Compile Remove="Crm\**" />
+    <Compile Remove="Hrms\**" />
+    <Compile Remove="Inventory\**" />
+    <Compile Remove="Logistic\**" />
+    <Compile Remove="Payroll\**" />
+    <Compile Remove="Purchase\**" />
+    <Compile Remove="Sales\**" />
+    <EmbeddedResource Remove="Accounts\**" />
+    <EmbeddedResource Remove="Attendance\**" />
+    <EmbeddedResource Remove="Commercial\**" />
+    <EmbeddedResource Remove="Crm\**" />
+    <EmbeddedResource Remove="Hrms\**" />
+    <EmbeddedResource Remove="Inventory\**" />
+    <EmbeddedResource Remove="Logistic\**" />
+    <EmbeddedResource Remove="Payroll\**" />
+    <EmbeddedResource Remove="Purchase\**" />
+    <EmbeddedResource Remove="Sales\**" />
+    <None Remove="Accounts\**" />
+    <None Remove="Attendance\**" />
+    <None Remove="Commercial\**" />
+    <None Remove="Crm\**" />
+    <None Remove="Hrms\**" />
+    <None Remove="Inventory\**" />
+    <None Remove="Logistic\**" />
+    <None Remove="Payroll\**" />
+    <None Remove="Purchase\**" />
+    <None Remove="Sales\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common.Library\Common.Library.csproj" />
+  </ItemGroup>
+
+</Project>
