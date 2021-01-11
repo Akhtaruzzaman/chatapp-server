@@ -72,14 +72,15 @@ namespace Application.Service.Messenger
         {
             var data = (from x in messagesRepository.GetAll().ToList()
                         where (x.FromId == fromid && x.ToId == toid) || (x.FromId == toid && x.ToId == fromid)
-                        select new MessagesVM
+                        select new
                         {
                             Id = x.Id,
                             FromId = x.FromId,
                             ToId = x.ToId,
                             Message = x.Message,
                             SeenStatus = x.SeenStatus,
-                            CreatedAt = x.CreatedAt
+                            CreatedAt = x.CreatedAt,
+                            Incomming = x.FromId.Equals(fromid) ? false : true
                         }).OrderBy(x => x.CreatedAt).ToList();
             return data;
         }
@@ -92,7 +93,6 @@ namespace Application.Service.Messenger
         {
             try
             {
-
                 int skip = (currentPage * pageSize);
                 var data_qry = (from x in messagesRepository.GetAll().ToList()
                                 where (x.FromId == fromid && x.ToId == toid) || (x.FromId == toid && x.ToId == fromid)
@@ -103,7 +103,8 @@ namespace Application.Service.Messenger
                                     ToId = x.ToId,
                                     Message = x.Message,
                                     SeenStatus = x.SeenStatus,
-                                    CreatedAt = x.CreatedAt
+                                    CreatedAt = x.CreatedAt,
+                                    Incomming = x.FromId.Equals(fromid) ? false : true
                                 }).OrderBy(x => x.CreatedAt);
 
                 long total = data_qry.Count();

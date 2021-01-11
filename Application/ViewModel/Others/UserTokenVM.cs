@@ -9,6 +9,6 @@ namespace Application.ViewModel.Others
     public class UserTokenVM
     {
         public string UserName { get; set; }
-        public string Toekn { get; set; }
+        public string Token { get; set; }
     }
 }

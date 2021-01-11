@@ -103,7 +103,7 @@ namespace WebApi.Controllers
             var _token = new JwtSecurityTokenHandler().WriteToken(JWToken);
             return new UserTokenVM()
             {
-                Toekn = _token,
+                Token = _token,
                 UserName = usersVM.Name
             };
         }
