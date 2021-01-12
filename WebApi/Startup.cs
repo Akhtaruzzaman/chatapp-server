@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebSocketManager;
 
 namespace WebApi
 {
@@ -75,10 +76,11 @@ namespace WebApi
                     ClockSkew = TimeSpan.Zero
                 };
             });
+            services.AddWebSocketManager();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -102,6 +104,13 @@ namespace WebApi
             //    }
             //    await next();
             //});
+
+
+            #region web socket
+            app.UseWebSockets();
+            app.MapWebSocketManager("/chat", serviceProvider.GetService<ChatHandler>());
+            #endregion
+
             app.UseCors("MyPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
