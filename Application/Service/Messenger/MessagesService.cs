@@ -71,7 +71,8 @@ namespace Application.Service.Messenger
         public object GetAllByUser(Guid fromid, Guid toid)
         {
             var data = (from x in messagesRepository.GetAll().ToList()
-                        where (x.FromId == fromid && x.ToId == toid) || (x.FromId == toid && x.ToId == fromid)
+                        where ((x.FromId == fromid && x.ToId == toid) || (x.FromId == toid && x.ToId == fromid))
+                        && x.IsArchived == false
                         select new
                         {
                             Id = x.Id,
@@ -95,7 +96,8 @@ namespace Application.Service.Messenger
             {
                 int skip = (currentPage * pageSize);
                 var data_qry = (from x in messagesRepository.GetAll().ToList()
-                                where (x.FromId == fromid && x.ToId == toid) || (x.FromId == toid && x.ToId == fromid)
+                                where ((x.FromId == fromid && x.ToId == toid) || (x.FromId == toid && x.ToId == fromid))
+                                && x.IsArchived == false
                                 select new
                                 {
                                     Id = x.Id,

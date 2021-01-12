@@ -90,6 +90,20 @@ namespace WebApi.Controllers
                 throw;
             };
         }
+        [HttpDelete]
+        public async Task<object> Delete(Guid id)
+        {
+            try
+            {
+                var entity = await messagesService.Get(id);
+                var res = await messagesService.Delete(entity);
+                return Ok(res);
+            }
+            catch (Exception)
+            {
+                throw;
+            };
+        }
 
 
     }
