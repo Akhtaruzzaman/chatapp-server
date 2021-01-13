@@ -104,7 +104,8 @@ namespace WebApi.Controllers
             return new UserTokenVM()
             {
                 Token = _token,
-                UserName = usersVM.Name
+                UserName = usersVM.Name,
+                Id = usersVM.Id
             };
         }
     }

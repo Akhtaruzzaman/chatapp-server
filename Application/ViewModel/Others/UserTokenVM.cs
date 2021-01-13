@@ -10,5 +10,6 @@ namespace Application.ViewModel.Others
     {
         public string UserName { get; set; }
         public string Token { get; set; }
+        public Guid  Id { get; set; }
     }
 }

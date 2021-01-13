@@ -45,12 +45,14 @@ namespace WebApi
             //services.AddDbContext<DBContext_Sql>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()), ServiceLifetime.Scoped, ServiceLifetime.Scoped);
             new Service(services);
             new Repository(services);
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            services.AddCors(options =>
             {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
 
             services.AddAuthentication(auth =>
             {
@@ -76,7 +78,8 @@ namespace WebApi
                     ClockSkew = TimeSpan.Zero
                 };
             });
-            services.AddWebSocketManager();
+            services.AddWebSocketManager(); 
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -106,18 +109,19 @@ namespace WebApi
             //});
 
 
-            #region web socket
-            app.UseWebSockets();
-            app.MapWebSocketManager("/chat", serviceProvider.GetService<ChatHandler>());
-            #endregion
-
-            app.UseCors("MyPolicy");
+            //#region web socket
+            //app.UseWebSockets();
+            //app.MapWebSocketManager("/chat", serviceProvider.GetService<ChatHandler>());
+            //#endregion
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHandler>("/chat");
+
             });
         }
     }

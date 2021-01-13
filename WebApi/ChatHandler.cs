@@ -1,23 +1,15 @@
-﻿using System.Dynamic;
+﻿using Microsoft.AspNetCore.SignalR;
+using System.Dynamic;
 using System.Threading.Tasks;
 using WebSocketManager;
 
 namespace WebApi
 {
-    public class ChatHandler : WebSocketHandler
+    public class ChatHandler : Hub
     {
-        public ChatHandler(WebSocketConnectionManager webSocketConnectionManager) : base(webSocketConnectionManager)
+        public async Task SendMessage(string fromid, string toid, string message)
         {
-            
-        }
-
-        public async Task Connected(string username, string room, string message)
-        {
-            await InvokeClientMethodToAllAsync("pingConnected", username, room, message);
-        }
-        public async Task SendMessage(string username, string room, string message)
-        {
-            await InvokeClientMethodToAllAsync("pingMessage", username, room, message);
+            await Clients.All.SendAsync("SendMessage", fromid, toid, message);
         }
     }
 }
