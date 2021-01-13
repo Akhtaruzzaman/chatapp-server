@@ -1,5 +1,7 @@
 # Chat APP - Server
 
+This project was generated with .NET 5.0.
+
 ## how to run ##
 
 Step 1: Open project with visual studio.
